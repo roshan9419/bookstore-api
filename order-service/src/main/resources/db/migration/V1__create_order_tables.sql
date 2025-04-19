@@ -1,34 +1,30 @@
-create sequence order_id_seq start with 1 increment by 50;
-create sequence order_item_id_seq start with 1 increment by 50;
-
-create table orders
-(
-    id                          bigint default nextval('order_id_seq') not null,
-    order_number                text not null,
-    username                    text not null,
-    customer_name               text not null,
-    customer_email              text not null,
-    customer_phone              text not null,
-    delivery_address_line1      text not null,
-    delivery_address_line2      text,
-    delivery_address_city       text not null,
-    delivery_address_state      text not null,
-    delivery_address_zip_code   text not null,
-    delivery_address_country    text not null,
-    status                      text not null,
-    comments                    text,
-    create_at                   timestamp,
-    updated_at                  timestamp,
-    primary key(id)
+CREATE TABLE orders (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    order_number VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    customer_email VARCHAR(255) NOT NULL,
+    customer_phone VARCHAR(50) NOT NULL,
+    delivery_address_line1 VARCHAR(255) NOT NULL,
+    delivery_address_line2 VARCHAR(255),
+    delivery_address_city VARCHAR(100) NOT NULL,
+    delivery_address_state VARCHAR(100) NOT NULL,
+    delivery_address_zip_code VARCHAR(20) NOT NULL,
+    delivery_address_country VARCHAR(100) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    comments TEXT,
+    create_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
-create table order_items
-(
-    id          bigint default nextval('order_item_id_seq') not null,
-    code        text not null,
-    name        text not null,
-    price       numeric not null,
-    quantity    integer not null,
-    primary key (id),
-    order_id bigint not null references orders (id)
+CREATE TABLE order_items (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    code VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    quantity INT NOT NULL,
+    order_id BIGINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (order_id) REFERENCES orders(id)
 );
